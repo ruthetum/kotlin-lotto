@@ -41,11 +41,7 @@ class LottoController(
     }
 
     private fun printLottoResult(lottoResultMap: LottoResultMap) {
-        val resultsDto = mutableListOf<LottoResultDto>()
-        for (key in lottoResultMap.getLottoResultMapFilteredNotNone().keys) {
-            val count = lottoResultMap.getLottoResultCount(key)
-            resultsDto.add(LottoResultDto(key.description, key.price, count))
-        }
+        val resultsDto = LottoResultDto.from(lottoResultMap)
         resultView.printLottoResults(resultsDto)
     }
 }

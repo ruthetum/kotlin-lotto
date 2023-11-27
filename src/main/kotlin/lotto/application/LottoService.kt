@@ -10,12 +10,12 @@ class LottoService(
     private val properties: LottoProperties = LottoProperties(),
 ) : LottoUseCase {
 
-    fun payPriceAndGetCount(price: Int): Int {
+    private fun payPriceAndGetCount(price: Int): Int {
         require(price > 0) { "지불하는 금액은 0보다 커야합니다" }
         return price / properties.lottoPrice
     }
 
-    fun generate(count: Int): List<Lotto> {
+    private fun generate(count: Int): List<Lotto> {
         return generateSequence { Lotto() }
             .take(count)
             .toList()

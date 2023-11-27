@@ -21,7 +21,19 @@ class LottoServiceTest {
         lottoService = LottoService()
     }
 
-    @DisplayName("금액을 입력하면 구매할 수 있는 로또의 개수를 반환한다")
+    @DisplayName("지불한 금액이 0원 이하일 경우 예외를 발생시킨다")
+    @Test
+    fun exceptionShouldBeThrowWhenPaidPriceIsLessThanZero() {
+        // given
+        val price = -1000
+
+        // when & then
+        Assertions.assertThatThrownBy { lottoService.buy(price) }
+            .isInstanceOf(IllegalArgumentException::class.java)
+            .hasMessage("지불하는 금액은 0보다 커야합니다")
+    }
+
+    @DisplayName("지불한 금액에 따라 로또를 반환한다")
     @ParameterizedTest
     @CsvSource(
         value = [
@@ -32,52 +44,14 @@ class LottoServiceTest {
         ],
         delimiter = ':'
     )
-    fun lottoCountShouldBeReturnByPaidPrice(price: Int, expected: Int) {
+    fun buyTest(price: Int, expected: Int) {
         // given
-
-        // when
-        val actual = lottoService.payPriceAndGetCount(price)
-
-        // then
-        Assertions.assertThat(actual).isEqualTo(expected)
-    }
-
-    @DisplayName("지불한 금액이 0원 이하일 경우 예외를 발생시킨다")
-    @Test
-    fun exceptionShouldBeThrowWhenPaidPriceIsLessThanZero() {
-        // given
-        val price = -1000
-
-        // when & then
-        Assertions.assertThatThrownBy { lottoService.payPriceAndGetCount(price) }
-            .isInstanceOf(IllegalArgumentException::class.java)
-            .hasMessage("지불하는 금액은 0보다 커야합니다")
-    }
-
-    @DisplayName("로또를 구매한 갯수만큼 로또를 반환한다")
-    @ParameterizedTest
-    @ValueSource(ints = [1, 10])
-    fun generateTest(lottoCount: Int) {
-        // given
-
-        // when
-        val lotto = lottoService.generate(lottoCount)
-
-        // then
-        Assertions.assertThat(lotto).hasSize(lottoCount)
-    }
-
-    @DisplayName("지불한 금액에 따라 로또를 반환한다")
-    @Test
-    fun buyTest() {
-        // given
-        val price = 10_000
 
         // when
         val lotto = lottoService.buy(price)
 
         // then
-        Assertions.assertThat(lotto).hasSize(10)
+        Assertions.assertThat(lotto).hasSize(expected)
     }
 
     @DisplayName("당첨번호와 구매한 로또를 비교하여 결과를 반환한다")

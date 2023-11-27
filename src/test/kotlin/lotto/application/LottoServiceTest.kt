@@ -2,15 +2,14 @@ package lotto.application
 
 import lotto.domain.Lotto
 import lotto.domain.LottoNumber
+import lotto.domain.LottoRank
 import lotto.domain.LottoResult
-import lotto.domain.LottoResultMap
 import org.assertj.core.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
-import org.junit.jupiter.params.provider.ValueSource
 
 class LottoServiceTest {
 
@@ -70,9 +69,9 @@ class LottoServiceTest {
         val lottoResultMap = lottoService.matchWinningLotto(command)
 
         // then
-        Assertions.assertThat(lottoResultMap.getLottoResultCount(LottoResult.MATCH_6_NUMBERS)).isEqualTo(1)
-        Assertions.assertThat(lottoResultMap.getLottoResultCount(LottoResult.MATCH_5_NUMBERS)).isEqualTo(1)
-        Assertions.assertThat(lottoResultMap.getLottoResultCount(LottoResult.MATCH_4_NUMBERS)).isEqualTo(1)
+        Assertions.assertThat(lottoResultMap.getLottoResultCount(LottoRank.MATCH_6_NUMBERS)).isEqualTo(1)
+        Assertions.assertThat(lottoResultMap.getLottoResultCount(LottoRank.MATCH_5_NUMBERS)).isEqualTo(1)
+        Assertions.assertThat(lottoResultMap.getLottoResultCount(LottoRank.MATCH_4_NUMBERS)).isEqualTo(1)
     }
 
     @DisplayName("수익률을 계산한다")
@@ -80,21 +79,21 @@ class LottoServiceTest {
     fun calculateProfitRate() {
         // given
         val result = listOf(
-            LottoResult.MATCH_3_NUMBERS,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
-            LottoResult.NONE,
+            LottoRank.MATCH_3_NUMBERS,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
+            LottoRank.NONE,
         )
-        val lottoResultMap = LottoResultMap.of(result)
+        val lottoResult = LottoResult.of(result)
 
         // when
-        val profitRate = lottoService.calculateProfitRate(lottoResultMap)
+        val profitRate = lottoService.calculateProfitRate(lottoResult)
 
         // then
         Assertions.assertThat(profitRate.profitRate).isEqualTo(0.5)

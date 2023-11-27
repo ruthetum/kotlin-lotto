@@ -5,7 +5,7 @@ import lotto.application.LottoUseCase
 import lotto.application.MatchWinningLottoCommand
 import lotto.domain.Lotto
 import lotto.domain.LottoNumber
-import lotto.domain.LottoResultMap
+import lotto.domain.LottoResult
 import lotto.view.InputView
 import lotto.view.InputViewImpl
 import lotto.view.ResultView
@@ -40,8 +40,8 @@ class LottoController(
         return Lotto(winningLottoNumbers.map { LottoNumber(it) })
     }
 
-    private fun printLottoResult(lottoResultMap: LottoResultMap) {
-        val resultsDto = LottoResultDto.from(lottoResultMap)
+    private fun printLottoResult(lottoResult: LottoResult) {
+        val resultsDto = LottoResultDto.from(lottoResult)
         resultView.printLottoResults(resultsDto)
     }
 }

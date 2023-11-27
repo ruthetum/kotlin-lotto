@@ -21,8 +21,8 @@ class Lotto(numbers: List<LottoNumber>) {
         return numbers.size != numbers.distinct().size
     }
 
-    fun match(winningLotto: Lotto): LottoResult {
-        return LottoResult.of(numbers.count { winningLotto.numbers.contains(it) })
+    fun match(winningLotto: Lotto): LottoRank {
+        return LottoRank.of(numbers.count { winningLotto.numbers.contains(it) })
     }
 
     companion object {

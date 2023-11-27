@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
 
-class LottoResultTest {
+class LottoRankTest {
 
     @DisplayName("일치하는 숫자에 따라 로또 결과와 당청금을 반환한다")
     @ParameterizedTest
@@ -23,15 +23,15 @@ class LottoResultTest {
         ]
     )
     fun resultShouldBeReturn(countOfMatch: Int, price: Int) {
-        val lottoResult = LottoResult.of(countOfMatch)
-        assertThat(lottoResult.price).isEqualTo(price)
+        val lottoRank = LottoRank.of(countOfMatch)
+        assertThat(lottoRank.price).isEqualTo(price)
     }
 
     @DisplayName("일치하는 숫자가 유효하지 않은 경우 예외를 반환한다")
     @ParameterizedTest
     @ValueSource(ints = [-1, 7])
     fun exceptionShouldBeThrowWhenCountOfMatchIsInvalid(countOfMatch: Int) {
-        assertThatThrownBy { LottoResult.of(countOfMatch) }
+        assertThatThrownBy { LottoRank.of(countOfMatch) }
             .isInstanceOf(IllegalArgumentException::class.java)
             .hasMessage("유효하지 않은 숫자입니다")
     }

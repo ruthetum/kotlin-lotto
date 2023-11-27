@@ -1,6 +1,6 @@
 package lotto.adapter
 
-import lotto.domain.LottoResultMap
+import lotto.domain.LottoResult
 
 data class LottoResultDto(
     val name: String,
@@ -8,10 +8,10 @@ data class LottoResultDto(
     val count: Int,
 ) {
     companion object {
-        fun from(lottoResultMap: LottoResultMap): MutableList<LottoResultDto> {
+        fun from(lottoResult: LottoResult): MutableList<LottoResultDto> {
             val resultsDto = mutableListOf<LottoResultDto>()
-            for (key in lottoResultMap.getLottoResultMapFilteredNotNone().keys) {
-                val count = lottoResultMap.getLottoResultCount(key)
+            for (key in lottoResult.getLottoResultMapFilteredNotNone().keys) {
+                val count = lottoResult.getLottoResultCount(key)
                 resultsDto.add(LottoResultDto(key.description, key.price, count))
             }
             return resultsDto

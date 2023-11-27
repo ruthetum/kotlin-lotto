@@ -2,8 +2,8 @@ package lotto.application
 
 import lotto.domain.Lotto
 import lotto.domain.LottoProperties
+import lotto.domain.LottoRank
 import lotto.domain.LottoResult
-import lotto.domain.LottoResultMap
 import lotto.domain.ProfitRate
 
 class LottoService(
@@ -26,17 +26,17 @@ class LottoService(
         return generate(count)
     }
 
-    override fun matchWinningLotto(command: MatchWinningLottoCommand): LottoResultMap {
-        val result = mutableListOf<LottoResult>()
+    override fun matchWinningLotto(command: MatchWinningLottoCommand): LottoResult {
+        val result = mutableListOf<LottoRank>()
         for (userLotto in command.userLottos) {
             result.add(userLotto.match(command.winningLotto))
         }
-        return LottoResultMap.of(result)
+        return LottoResult.of(result)
     }
 
-    override fun calculateProfitRate(lottoResultMap: LottoResultMap): ProfitRate {
-        val totalLottoPrice = lottoResultMap.getTotalCount() * properties.lottoPrice
-        val totalWinningPrice = lottoResultMap.getWinningPrice()
+    override fun calculateProfitRate(lottoResult: LottoResult): ProfitRate {
+        val totalLottoPrice = lottoResult.getTotalCount() * properties.lottoPrice
+        val totalWinningPrice = lottoResult.getWinningPrice()
         return ProfitRate(totalWinningPrice / totalLottoPrice.toDouble())
     }
 }

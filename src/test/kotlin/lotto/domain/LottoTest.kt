@@ -45,6 +45,6 @@ class LottoTest {
         val actual = userLotto.match(winningLotto)
 
         // then
-        assertThat(actual).isEqualTo(LottoResult.of(expected))
+        assertThat(actual).isEqualTo(LottoRank.of(expected))
     }
 }
